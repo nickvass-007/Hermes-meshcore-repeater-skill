@@ -2,7 +2,7 @@
 
 This independent MMTV Mesh project packages the supplied “Hermes MeshCore Repeater Skill — safe rewrite v2.0.0”. The operator confirmed authority to publish that implementation under MIT. No upstream MeshCore, RemoteTerm or Hermes source implementation is bundled.
 
-The initial executable `scripts/repeater_cmd.py`, regression suite, `SKILL.md`, setup reference, example env and original ignore file are preserved byte-for-byte from that supplied bundle. New public documentation, test runner, workflow and brand notices wrap the original package without changing radio execution behaviour. The repository name differs deliberately from the installed skill name `meshcore-repeater-command`.
+The initial executable `scripts/repeater_cmd.py`, regression suite, `SKILL.md`, setup reference, example env and original ignore file are preserved byte-for-byte from that supplied bundle. The initial public documentation, test runner, workflow and brand notices wrapped the original package without changing radio execution behaviour. Version 2.0.1 adds a narrowly scoped strict full-public-key reply parser and regression tests; the original bundle remains recoverable from Git history. See the changelog for the exact behaviour change. The repository name differs deliberately from the installed skill name `meshcore-repeater-command`.
 
 ## Upstream references
 

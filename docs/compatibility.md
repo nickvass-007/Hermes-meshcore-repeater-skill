@@ -16,7 +16,8 @@ The client expects:
 - `GET /api/contacts?limit=1000&offset=...` returning list pages with full public keys and repeater `type: 2`.
 - `POST /api/contacts/{full_key}/repeater/login` returning `authenticated: true`.
 - `POST /api/contacts/{full_key}/command` returning a string `response`.
-- Supported firmware `get` replies beginning with `> `.
+- Generic supported setting `get` replies beginning with `> `.
+- Public-key identity replies: exactly 64 hexadecimal characters, either bare or prefixed by `> `; case-insensitive, with at most one LF/CRLF terminator. The full identity must still equal the resolved target before its requested command. This narrowly scoped 2.0.1 compatibility fix does not relax generic setting parsing.
 
 Pagination is bounded at 100,000 contacts; duplicates, malformed entries and an exhausted page bound abort. Schema or formatting differences are not a reason to remove safety checks.
 

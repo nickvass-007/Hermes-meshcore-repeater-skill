@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 *.jsonl
 *.lock
+references/local-operations.md
+operation-logs/

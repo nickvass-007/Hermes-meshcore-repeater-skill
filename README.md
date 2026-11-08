@@ -12,7 +12,7 @@ A Hermes skill and standard-library Python CLI for managing **your own explicitl
 
 It helps an agent query firmware, inspect supported settings and make bounded configuration changes without guessing node names or silently targeting a fleet.
 
-> **Status:** v2.0.0 execution bundle, offline regression tested. Live RemoteTerm/firmware commissioning is still required in each environment. This is not a radio dashboard, firmware installer or proof of RF performance. No live radio acceptance is claimed.
+> **Status:** v2.0.1 execution bundle, offline regression tested. Public-key identity replies support both bare full keys and the `> ` form; identity equality remains mandatory. Live RemoteTerm/firmware commissioning is still required in each environment. This is not a radio dashboard, firmware installer or proof of RF performance. No live radio acceptance is claimed.
 
 [Setup](references/setup.md) · [How it works](docs/how-it-works.md) · [Usage and prompts](docs/usage.md) · [Safety](SECURITY.md) · [Compatibility](docs/compatibility.md) · [Changes](CHANGELOG.md)
 
@@ -129,6 +129,14 @@ Operator request -> Hermes skill / CLI -> policy and target validation
 ```
 
 **Preview is not offline.** A read-only apply still sends radio traffic. Matching a returned setting confirms configuration, not RF output, runtime behaviour or a reboot. A local lock is not a distributed lease; keep other administrative clients quiet during a batch.
+
+## Verification logs and ongoing improvements
+
+For agent-managed requests, follow [operator recording](references/operation-logging.md). Keep a dedicated private log with the exact request, corrections/exclusions, preview and apply outputs, exit/status, firmware and native audit references. The private destination belongs in the installed-only `references/local-operations.md`, not the public repository. The generic procedure is portable; no Obsidian vault path is assumed.
+
+The plain CLI still writes its native private JSONL audit for apply operations. It does **not** automatically write an Obsidian note. When the operator enables agent-managed recording, the agent must create request notes before network calls, preserve all sanitised outputs and stop if the log cannot be maintained. Keep real node keys/names, audit logs and local references out of GitHub and CI fixtures.
+
+Continue improving through synthetic test-first regressions, independent review of executable changes, updated checksums and exact-head CI. Publish only reviewed code and generic guidance under explicit operator authority. Do not turn an ad hoc verification request into a recurring radio job.
 
 ## Maintenance and recovery
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""MeshCore RemoteTerm operator, v2.0.0. Python 3.10+, standard library only.
+"""MeshCore RemoteTerm operator, v2.0.1. Python 3.10+, standard library only.
 No configuration write is retried. Network access occurs only from main().
 """
 from __future__ import annotations
@@ -23,7 +23,7 @@ import uuid
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 
-VERSION = "2.0.0"
+VERSION = "2.0.1"
 DEFAULT_ENV = Path.home() / ".hermes/secrets/meshcore/.env"
 DEFAULT_STATE = Path.home() / ".hermes/state/meshcore"
 NO_REPLY = "(no response - command may have been processed)"
@@ -369,6 +369,19 @@ def value_of(response):
     return value
 
 
+def public_key_of(response):
+    """Accept only a complete hex identity, optionally using the CLI '> ' prefix."""
+    if not isinstance(response, str):
+        raise SafetyError("Unexpected public-key response; require a full 64-character hex key.")
+    # Permit one transport line ending, not arbitrary whitespace or extra lines.
+    value = response[:-2] if response.endswith("\r\n") else response.removesuffix("\n")
+    if value.startswith("> "):
+        value = value[2:]
+    if not HEX64.fullmatch(value.lower()):
+        raise SafetyError("Unexpected public-key response; require a full 64-character hex key.")
+    return value.lower()
+
+
 def equivalent(key, actual, expected):
     if key in NUMBERS:
         if key == "dutycycle":
@@ -463,12 +476,14 @@ def execute_node(client, node, password, operation, journal):
     client.health()
     client.login(pk, password)
     # Confirm remote CLI access and full identity before executing the requested operation.
-    actual_key = value_of(read_command(client, pk, "get public.key")).lower()
+    actual_key = public_key_of(read_command(client, pk, "get public.key"))
     if actual_key != pk:
         raise SafetyError("Remote public key did not match the resolved target; aborting.")
     if operation.kind == "read":
         response = read_command(client, pk, operation.command)
-        if operation.key:
+        if operation.key == "public.key":
+            public_key_of(response)
+        elif operation.key:
             value_of(response)
         result.update(status="read_ok", response=response)
         return result
