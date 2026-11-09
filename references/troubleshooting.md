@@ -32,6 +32,8 @@ A normal invocation means no additional operator routing override was requested.
 
 In some deployed versions, login fallback resets the radio path, while the next CLI handler reloads the contact using its saved effective route. Check the deployed implementation before claiming a successful flood login guarantees flood identity/CLI reads. A cached route of any hop length can be stale. Contact cache metadata is not a verified physical RF path and may change during a request.
 
+Check both the effective path tuple and its source label when deciding whether a contact is already using flood. A forced-flood override can have an effective flood path while its source is labelled `override`; a fallback check that recognises only a `flood` source label can perform another flood-login attempt unnecessarily. Verify the deployed branch and selected-node logs before attributing an extra attempt, and distinguish one client API request from the server's internal attempts. Do not silently patch a production server or claim this explains failures in later phases.
+
 If an ordinary read succeeds only after native fallback or its second permitted attempt, report those qualifications. Do not claim the starting route worked throughout or that reliability is established.
 
 ## Separately approved temporary routing experiment
