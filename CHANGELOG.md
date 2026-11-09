@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — operator guidance only
+
+- Reconcile installed and public request-recording, coverage, paced-comparison and closeout guidance.
+- Add phase-specific troubleshooting: distinguish login, full-key identity, requested-read and reply-format failures; preserve collision decisions and exact full keys.
+- Document native flood-login fallback versus sustained routing, separately approved temporary-override lifetime and restoration, and the limits of before/after fleet comparisons.
+- Retain runtime v2.0.1 without execution, retry, parsing, TLS, allowlist or CLI-option changes. No private node data, deployment configuration or diagnostic wrappers are published.
+
 ## 2.0.1 — strict public-key reply compatibility
 
 - Accept bare or `> `-prefixed 64-character hexadecimal public-key replies, including uppercase keys and one LF/CRLF transport terminator.
